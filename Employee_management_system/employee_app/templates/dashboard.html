@@ -1,0 +1,510 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 1;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            width: 240px; /* Sidebar is now fixed at 280px */
+            padding: 20px;
+            background-color: #343a40;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar img.logo {
+            height: 50px;
+            margin: 0 auto 10px auto;
+        }
+
+        .sidebar img {
+            height: 80px; /* Adjust height as needed */
+            width: 180px;  /* Maintain the aspect ratio */
+            margin: 0 auto;
+            margin-bottom: 10px; /* Adjust spacing below the logo */
+            border-radius: 0; /* Removes the oval/circular shape */
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar {
+    width: 240px;
+    padding: 15px;
+    background-color: #343a40;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between sidebar items */
+}
+
+.sidebar img.logo {
+    height: 80px;
+    width: 180px;
+    margin: 0 auto;
+    margin-bottom: 20px; /* Spacing below the logo */
+}
+
+.sidebar .nav {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: left;
+    padding: 10px 15px;
+    background-color: #495057;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar a,
+.sidebar .dropdown-btn {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    background-color: #343a40;
+}
+
+.sidebar a i,
+.sidebar .dropdown-btn i {
+    margin-right: 10px;
+}
+
+.sidebar a:hover,
+.sidebar .dropdown-btn:hover {
+    background-color: #495057;
+}
+
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+    padding-left: 15px;
+    gap: 5px; /* Space between dropdown links */
+}
+
+.dropdown-content a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: #495057;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #6c757d;
+}
+
+.dropdown.open .dropdown-content {
+    display: flex;
+}
+
+.logout {
+    margin-top: auto; /* Push logout to the bottom */
+    background-color: #dc3545;
+    text-align: center;
+    font-weight: bold;
+}
+
+.logout:hover {
+    background-color: #c82333;
+}
+
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .sidebar .logout {
+            margin-top: 10px;
+            background-color: #dc3545;
+        }
+
+        .sidebar .logout:hover {
+            background-color: #c82333;
+        }
+
+        .sidebar a:first-of-type {
+            margin-top: 15px; /* Adds space before "Dashboard" */
+        }
+
+
+        
+
+        .header {
+            background-color: #ffffff;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 280px; /* Match the sidebar width */
+            right: 0;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .header nav a {
+            text-decoration: none;
+            color: #343a40;
+            font-size: 14px;
+            margin-left: 20px;
+        }
+
+        .content {
+            margin-left: 280px; /* Align content to the sidebar */
+            margin-top: 80px; /* Adjust content to be below the header */
+            padding: 20px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1 1 calc(25% - 15px);
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            min-height: 100px;
+        }
+
+        .card i {
+            font-size: 24px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        .card.blue h4 {
+            color: #007bff;
+        }
+
+        .card.green h4 {
+            color: #28a745;
+        }
+
+        .card.teal h4 {
+            color: #17a2b8;
+        }
+
+        .card.red h4 {
+            color: #dc3545;
+        }
+
+        .cards {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1 1 calc(25% - 15px);
+    padding: 15px;
+    background-color: #ffffff; /* Change this to your desired background color */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-height: 100px;
+}
+
+/* Remove the arrows */
+.card i {
+    display: none;
+}
+
+.card h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+.card.blue {
+    background-color: #e7f3ff; /* Light blue background */
+}
+
+.card.green {
+    background-color: #eafaf1; /* Light green background */
+}
+
+.card.teal {
+    background-color: #e5f6f7; /* Light teal background */
+}
+
+.card.red {
+    background-color: #fde8e8; /* Light red background */
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 5px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+        .chart-container {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 300px; /* Reduced height */
+        }
+
+        .chart-container h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #343a40;
+        }
+        /* Dropdown Button */
+        .dropdown {
+    position: relative;
+}
+
+/* Fix for dropdown button to match sidebar links */
+.dropdown-btn {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    background-color: #343a40;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Ensure full width alignment */
+}
+
+.dropdown-btn:hover {
+    background-color: #495057;
+}
+
+/* Align dropdown arrow */
+.dropdown-btn .dropdown-arrow {
+    margin-left: auto; /* Push arrow to the right */
+}
+
+/* Fix dropdown content alignment */
+.dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 15px; /* Indentation for dropdown items */
+}
+
+.dropdown-content a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #495057;
+}
+
+.dropdown-content a:hover {
+    background-color: #6c757d;
+}
+
+/* Show dropdown on open */
+.dropdown.open .dropdown-content {
+    display: flex;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="{% static 'images/logo1.png' %}" alt="Logo">
+        <div class="nav">
+            <span>Welcome, {{ user.username }}</span>
+        </div>
+        <a href="{% url 'dashboard' %}">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <div class="dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown('employeeDropdown')">
+                <i class="fas fa-users"></i> Employees
+                <i class="fas fa-caret-down dropdown-arrow"></i>
+            </button>
+            <div class="dropdown-content" id="employeeDropdown">
+                <a href="{% url 'employee_list' %}">
+                    <i class="fas fa-list"></i> Employee List
+                </a>
+                <a href="{% url 'employee_add' %}">
+                    <i class="fas fa-user-plus"></i> Add Employee
+                </a>
+                <a href="{% url 'employee_edit' %}">
+                    <i class="fas fa-user-edit"></i> Edit Employee
+                </a>
+            </div>
+        </div>
+        
+        
+        
+        <script>
+            function toggleDropdown(dropdownId) {
+                const dropdown = document.getElementById(dropdownId);
+                
+                // Close other open dropdowns (optional)
+                document.querySelectorAll('.dropdown-content').forEach((menu) => {
+                    if (menu !== dropdown) {
+                        menu.parentElement.classList.remove('open');
+                    }
+                });
+        
+                // Toggle current dropdown
+                dropdown.parentElement.classList.toggle('open');
+            }
+        
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown').forEach((dropdown) => {
+                        dropdown.classList.remove('open');
+                    });
+                }
+            });
+        </script>
+    
+        
+        
+        <a href="{% url 'salary' %}">
+            <i class="fas fa-dollar-sign"></i> Salary
+        </a>
+        <a href="{% url 'branch_list' %}">
+            <i class="fas fa-building"></i> Branches
+        </a>
+        <a href="{% url 'users' %}">
+            <i class="fas fa-user"></i> Users
+        </a>
+        <a href="{% url 'login' %}" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+        </a>
+    </div>
+
+    <div class="header">
+        <h2>Dashboard</h2>
+        <nav>
+            <a href="home">Home</a>
+            <a href="#">Starter</a>
+        </nav>
+    </div>
+
+    <div class="content">
+        <div class="cards">
+            <div class="card blue">
+                <i class="fas fa-users"></i>
+                <h4>1</h4>
+                Total Users
+                <a href="#">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+            <div class="card green">
+                <i class="fas fa-user-tie"></i>
+                <h4>1</h4>
+                Total Employees
+                <a href="#">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+            <div class="card teal">
+                <i class="fas fa-warehouse"></i>
+                <h4>2</h4>
+                Total Branches
+                <a href="#">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+            <div class="card red">
+                <i class="fas fa-credit-card"></i>
+                <h4>32,000 Tk</h4>
+                Total Payments
+                <a href="#">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Salary Chart</h3>
+            <canvas id="salaryChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('salaryChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March'],
+                datasets: [{
+                    label: 'Payments',
+                    data: [32000, 28000, 30000],
+                    backgroundColor: '#17a2b8',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Edit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4CAF50;
+            padding: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header img {
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        header a {
+            background-color: yellow;
+            padding: 10px;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        header a:hover {
+            background-color: #ffeb3b;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        input, select, button {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .gender-radio {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gender-radio input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="{% static 'images/logo1.png' %}" alt="Logo">
+            <h1>Employee Management System</h1>
+        </div>
+        <a href="{% url 'employee_list' %}">Back to Employee List</a>
+    </header>
+    
+    <h1>Edit Employee</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ employee.name }}" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ employee.email }}" required>
+
+        <label for="mobile_no">Mobile No</label>
+        <input type="text" id="mobile_no" name="mobile_no" value="{{ employee.mobile_no }}" required pattern="\d{10}" maxlength="10" title="Enter a valid 10-digit number">
+
+        <label for="designation">Designation</label>
+        <select id="designation" name="designation" required>
+            <option value="HR" {% if employee.designation == 'HR' %}selected{% endif %}>HR</option>
+            <option value="Manager" {% if employee.designation == 'Manager' %}selected{% endif %}>Manager</option>
+            <option value="Sales" {% if employee.designation == 'Sales' %}selected{% endif %}>Sales</option>
+        </select>
+
+        <label for="gender">Gender</label>
+        <div class="gender-radio">
+            <label><input type="radio" id="male" name="gender" value="Male" {% if employee.gender == 'Male' %}checked{% endif %}> Male</label>
+            <label><input type="radio" id="female" name="gender" value="Female" {% if employee.gender == 'Female' %}checked{% endif %}> Female</label>
+            <label><input type="radio" id="others" name="gender" value="Others" {% if employee.gender == 'Others' %}checked{% endif %}> Others</label>
+        </div>
+
+        <label for="course">Course</label>
+        <select id="course" name="course" required>
+            <option value="MCA" {% if employee.course == 'MCA' %}selected{% endif %}>MCA</option>
+            <option value="AIML" {% if employee.course == 'AIML' %}selected{% endif %}>AIML</option>
+        </select>
+
+        <label for="image">Image Upload</label>
+        {% if employee.image %}
+            <img src="{{ employee.image.url }}" alt="Employee Image" width="100">
+        {% else %}
+            <p>No image uploaded</p>
+        {% endif %}
+        <input type="file" id="image" name="image">
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
